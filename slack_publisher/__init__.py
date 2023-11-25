@@ -1,0 +1,1 @@
+from slack_publisher.src.publisher import SlackPublisher
