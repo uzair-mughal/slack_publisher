@@ -20,7 +20,8 @@ class SlackPublisher:
         try:
             task_id = context["task_instance"].task_id
             dag_id = context["task_instance"].dag_id
-            response = self.webhook_client.send(text=f"Task {task_id} in DAG {dag_id} failed")
+            error = context.get("exception", "Check airflow logs on dashboard")
+            response = self.webhook_client.send(text=f"Task {task_id} in DAG {dag_id} failed, error: {error}")
             if response.status_code != 200:
                 raise Exception(f"Slack API returned an error: {response.status_code} - {response.body}")
         except Exception as e:
